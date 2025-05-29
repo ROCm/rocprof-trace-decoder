@@ -1,4 +1,4 @@
-# ROCprof Trace Decoder
+# ROCprof Trace Decoder Release Notes
 
 ## Descripton
 
@@ -40,3 +40,42 @@ auto status = rocprofiler_thread_trace_decoder_create(&decoder, "/opt/rocm/lib")
 ## End User License Agreement
 
 See: [LICENSE](LICENSE)
+
+<!-- Release Description -->
+
+<!-- Uncomment only the parts that are needed for this release -->
+<!--
+### Upgrade Steps
+* [ACTION REQUIRED]
+*
+-->
+
+<!--
+### Breaking Changes
+*
+*
+-->
+
+<!--
+### New Features
+*
+*
+-->
+
+<!--
+### Bug Fixes
+*
+*
+-->
+
+<!--
+### Performance Improvements
+*
+*
+-->
+
+<!--
+### Other Changes
+*
+*
+-->

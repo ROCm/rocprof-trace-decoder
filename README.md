@@ -1,6 +1,6 @@
 # ROCprof Trace Decoder
 
-## Descripton
+## Description
 
 A plugin library for rocprofiler-sdk: https://github.com/rocm/rocprofiler-sdk
 

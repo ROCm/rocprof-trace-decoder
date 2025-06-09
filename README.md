@@ -22,6 +22,8 @@ By default, rocprofv3 searches ``LD_LIBRARY_PATH`` and the rocprofiler-sdk insta
 rocprofv3 --att --att-library-path /path/to/lib -- ./a.out
 ```
 
+For information on how to generate thread trace data, see the documentation on [using rocprofv3 to collect thread trace](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/amd-mainline/how-to/using-thread-trace.html)
+
 ### Rocprofiler-sdk API
 
 Rocprofiler-sdk requires the library path to be provided at resource creation:
@@ -31,6 +33,8 @@ rocprofiler_thread_trace_decoder_handle_t decoder{};
 # Notes: Passing null string "" searches in LD_LIBRARY_PATH. Passing nullptr is not allowed.
 auto status = rocprofiler_thread_trace_decoder_create(&decoder, "/opt/rocm/lib");
 ```
+
+For more API information, see the [SDK API headers](https://github.com/ROCm/rocprofiler-sdk/tree/amd-mainline/source/include/rocprofiler-sdk/experimental/thread-trace)
 
 ### Supported devices
 

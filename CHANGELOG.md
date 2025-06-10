@@ -8,47 +8,9 @@ Thread trace is a profiling method that provides fine-grained insight into GPU k
 
 This library is responsible for transforming thread trace binary data (.att) into a tool consumable format.
 
-## Usage
-
-### rocprofv3 tool
-
-```bash
-rocprofv3 --att -- ./a.out
-```
-
-By default, rocprofv3 searches ``LD_LIBRARY_PATH`` and the rocprofiler-sdk install location, normally ``/opt/rocm/lib``. For custom install locations, use
-
-```bash
-rocprofv3 --att --att-library-path /path/to/lib -- ./a.out
-```
-
-### Rocprofiler-sdk API
-
-Rocprofiler-sdk requires the library path to be provided at resource creation:
-
-```bash
-rocprofiler_thread_trace_decoder_handle_t decoder{};
-# Notes: Passing null string "" searches in LD_LIBRARY_PATH. Passing nullptr is not allowed.
-auto status = rocprofiler_thread_trace_decoder_create(&decoder, "/opt/rocm/lib");
-```
-
-### Supported devices
-
-- AMD Radeon: 6000, 7000, 9000 series
-- AMD Instinct: MI200 and MI300 series
-
-## End User License Agreement
-
-See: [LICENSE](LICENSE)
-
 <!-- Release Description -->
 
 <!-- Uncomment only the parts that are needed for this release -->
-<!--
-### Upgrade Steps
-* [ACTION REQUIRED]
-*
--->
 
 <!--
 ### Breaking Changes
@@ -56,26 +18,26 @@ See: [LICENSE](LICENSE)
 *
 -->
 
-<!--
+## Release 0.1.1
+
 ### New Features
-*
-*
--->
+* (Experimental) Support for PC sampling to be run at the same time as thread trace in MI300
 
-<!--
 ### Bug Fixes
-*
-*
--->
+* Fixed an issue where gfx11 and gfx12 GPUs would not report packet losses
+* Fixed an issue where decoding would not work under CWSR on gfx11 and gfx12 GPUs
+* Fixed some issues caught by sanitizers
+* Stochastic traps should no longer cause parsing to fail
 
-<!--
 ### Performance Improvements
-*
-*
--->
+* Increased performance and reduced memory usage of gfx9 traces
 
-<!--
 ### Other Changes
-*
-*
--->
+* Invalid instructions are reported as category == 0, "NONE" (was category == 16)
+
+### Upgrade Steps
+* Replace the previous installed library by this one
+
+## End User License Agreement
+
+See: [LICENSE](LICENSE)

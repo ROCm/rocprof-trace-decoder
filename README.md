@@ -34,7 +34,7 @@ rocprofiler_thread_trace_decoder_handle_t decoder{};
 auto status = rocprofiler_thread_trace_decoder_create(&decoder, "/opt/rocm/lib");
 ```
 
-For more API information, see the [SDK API headers](https://github.com/ROCm/rocprofiler-sdk/tree/amd-mainline/source/include/rocprofiler-sdk/experimental/thread-trace)
+For more API information, see the [ROCm docs](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/amd-mainline/api-reference/thread_trace.html) and [SDK API headers](https://github.com/ROCm/rocprofiler-sdk/tree/amd-mainline/source/include/rocprofiler-sdk/experimental/thread-trace)
 
 ### Supported devices
 

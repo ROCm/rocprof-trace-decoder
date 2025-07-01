@@ -18,25 +18,25 @@ This library is responsible for transforming thread trace binary data (.att) int
 *
 -->
 
-## Release 0.1.1
+## Release 0.1.2
 
-### New Features
-* (Experimental) Support for PC sampling to be run at the same time as thread trace in MI300
+### Resolved issues
 
-### Bug Fixes
-* Fixed an issue where gfx11 and gfx12 GPUs would not report packet losses
-* Fixed an issue where decoding would not work under CWSR on gfx11 and gfx12 GPUs
-* Fixed some issues caught by sanitizers
-* Stochastic traps should no longer cause parsing to fail
+- Fixed an issue where stalls were delayed by 1 cycle on gfx10
+- Fixed an issue where gfx10 would not properly find the code object id
+- Further fixes for PC Sampling (PCS) + Thread trace (TT) combination on MI300
 
-### Performance Improvements
-* Increased performance and reduced memory usage of gfx9 traces
+### Changed
 
-### Other Changes
-* Invalid instructions are reported as category == 0, "NONE" (was category == 16)
+- xnack is now reported as stall (was idle time)
+- For TT + PCS, the time inside the trap handler is marked as ``ROCPROFILER_THREAD_TRACE_DECODER_INST_CONTEXT``. This type will not have a PC address.
+
+### Added
+- new TT2 header versions from aqlprofile
 
 ### Upgrade Steps
 * Replace the previous installed library by this one
+  * First, uninstall previous decoder version to avoid conflicts
 
 ## End User License Agreement
 

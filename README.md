@@ -2,7 +2,7 @@
 
 ## Description
 
-A plugin library for rocprofiler-sdk: https://github.com/rocm/rocprofiler-sdk
+A plugin library for rocprofiler-sdk: https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-sdk
 
 Thread trace is a profiling method that provides fine-grained insight into GPU kernel execution by collecting detailed traces of shader instructions executed by the GPU. This feature captures GPU occupancy, instruction execution times, fast performance counters, and other detailed performance data. Thread trace utilizes GPU hardware instrumentation to record events as they happen, resulting in precise timing information about wave (threads) execution behavior.
 
@@ -34,7 +34,7 @@ rocprofiler_thread_trace_decoder_handle_t decoder{};
 auto status = rocprofiler_thread_trace_decoder_create(&decoder, "/opt/rocm/lib");
 ```
 
-For more API information, see the [ROCm docs](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/amd-mainline/api-reference/thread_trace.html) and [SDK API headers](https://github.com/ROCm/rocprofiler-sdk/tree/amd-mainline/source/include/rocprofiler-sdk/experimental/thread-trace)
+For more API information, see the [ROCm docs](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/amd-mainline/api-reference/thread_trace.html), [SDK Samples](https://github.com/ROCm/rocm-systems/blob/develop/projects/rocprofiler-sdk/samples/thread_trace/agent.cpp) and [SDK API](https://github.com/ROCm/rocprofiler-sdk/tree/amd-mainline/source/include/rocprofiler-sdk/experimental/thread-trace)
 
 ### Supported devices
 
@@ -43,4 +43,5 @@ For more API information, see the [ROCm docs](https://rocm.docs.amd.com/projects
 
 ## End User License Agreement
 
-See: [LICENSE](LICENSE)
+- Headers are provided under the MIT license.
+- The .so and .dylib binaries use a custom [LICENSE](LICENSE)

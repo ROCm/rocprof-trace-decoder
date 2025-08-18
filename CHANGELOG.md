@@ -1,43 +1,48 @@
-# ROCprof Trace Decoder Release Notes
-
-## Descripton
-
-A plugin library for rocprofiler-sdk: https://github.com/rocm/rocprofiler-sdk
-
-Thread trace is a profiling method that provides fine-grained insight into GPU kernel execution by collecting detailed traces of shader instructions executed by the GPU. This feature captures GPU occupancy, instruction execution times, fast performance counters, and other detailed performance data. Thread trace utilizes GPU hardware instrumentation to record events as they happen, resulting in precise timing information about wave (threads) execution behavior.
-
-This library is responsible for transforming thread trace binary data (.att) into a tool consumable format.
-
-<!-- Release Description -->
-
-<!-- Uncomment only the parts that are needed for this release -->
-
-<!--
-### Breaking Changes
-*
-*
--->
-
-## Release 0.1.2
+# Changelog for release 0.1.3
 
 ### Resolved issues
 
-- Fixed an issue where stalls were delayed by 1 cycle on gfx10
-- Fixed an issue where gfx10 would not properly find the code object id
-- Further fixes for PC Sampling (PCS) + Thread trace (TT) combination on MI300
-
-### Changed
-
-- xnack is now reported as stall (was idle time)
-- For TT + PCS, the time inside the trap handler is marked as ``ROCPROFILER_THREAD_TRACE_DECODER_INST_CONTEXT``. This type will not have a PC address.
+- Fixed an issue where large traces (~GB) would fail to parse or return _INVALID_SHADER_DATA
+- Fixed timing of fp64 ops in gfx12
 
 ### Added
-- new TT2 header versions from aqlprofile
 
-### Upgrade Steps
-* Replace the previous installed library by this one
-  * First, uninstall previous decoder version to avoid conflicts
+- Support for MacOS x86 and ARM
+  - Minimum version MAC OSX 12.7.3
+- Headers are now included as part of this repository
+  - ROCprof Trace Decoder is experimental and subject to API changes
 
-## End User License Agreement
+####  New record: REALTIME
+  - API types:
+    - rocprofiler_thread_trace_decoder_realtime_t
+    - ROCPROFILER_THREAD_TRACE_DECODER_RECORD_REALTIME
+    - ROCPROFILER_THREAD_TRACE_DECODER_RECORD_RT_FREQUENCY
+  - This is the realtime clock timestamp. Some use cases:
+    - Calculate the gfxclock
+    - Correlate the trace with timestamps from other profiling methods
+    - Correlate with s_memrealtime
+  - For now, gfx9 only generates RT timestamps at trace endpoints
 
-See: [LICENSE](LICENSE)
+#### New record: SHADERDATA
+  - API types:
+    - rocprofiler_thread_trace_decoder_shaderdata_t
+    - ROCPROFILER_THREAD_TRACE_DECODER_RECORD_SHADERDATA
+  - This record is generated when the shader program executes:
+    - s_ttracedata
+    - s_ttracedata_imm (gfx11+)
+  - Usage:
+    ```bash
+    # The 32-bit contents of the m0 register are sent to the SQTT buffer and surfaced via SHADERDATA
+    asm volatile("s_mov m0, 0x1234;"
+                 "s_nop 1;"
+                 "s_ttracedata;");
+    # Note gfx9 requires a waitstate
+    # gfx11 and gfx12 can also accept a 8-bit immediate value with reduced bandwidth use
+    asm volatile("s_ttracedata_imm 0x12");
+    ```
+    - Typical usage: Binary instrumentation
+    - If ttracedata is used often, we recommend to reduce the SQTT bandwidth with:
+      - ROCPROFILER_THREAD_TRACE_PARAMETER_NO_DETAIL
+      - This will remove instruction profiling from the trace, related to the rocprofiler_thread_trace_decoder_wave_t record
+    - If thread trace is disabled, s_ttracedata is executed as s_nop
+    - Example usage in profiler tests: [Kernel](https://github.com/ROCm/rocm-systems/blob/develop/projects/rocprofiler-sdk/tests/thread-trace/kernel_lds.cpp#L57) and [Record](https://github.com/ROCm/rocm-systems/blob/develop/projects/rocprofiler-sdk/tests/thread-trace/trace_callbacks.cpp#L88)

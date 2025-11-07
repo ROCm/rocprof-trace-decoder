@@ -26,7 +26,7 @@
 #include <stdint.h>
 
 /**
- * This file describes the instrumentation format for rocprof trace decoder 0.1.3.
+ * This file describes the instrumentation format for rocprof trace decoder 0.1.5.
  * Instrumentation is optional for decoding, with the exception of rocprof_trace_decoder_gfx9_header_t.
  * Unless specified, all instrumentation packets are written to the USERDATA2 register.
  * This is an experimental feature, and as such the instrumentation may be changed without notice.
@@ -46,9 +46,10 @@ typedef union rocprof_trace_decoder_gfx9_header_t
         uint64_t gfx9_version2 : 3;   ///< 4: MI200 or earlier - 5: MI300 - 6: MI350
         uint64_t DSIMDM : 4;          ///< Bitmask of SIMDs active
         uint64_t DCU : 5;             ///< Target CU
-        uint64_t reserved1 : 1;
+        uint64_t DSA : 1;             ///< Must be zero
         uint64_t SEID : 6;            ///< Optional: Shader engine ID
-        uint64_t reserved2 : 32;
+        uint64_t double_buffer : 1;   ///< Double buffering mode enabled
+        uint64_t reserved2 : 31;
     };
     uint64_t raw;
 } rocprof_trace_decoder_gfx9_header_t;

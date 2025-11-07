@@ -1,20 +1,18 @@
-# Changelog for Preview 0.1.4
-
-Release 0.1.4 aligns with ROCm 7.0
-- This is a preview release for 0.1.4
+# Changelog for release 0.1.5
 
 ### Resolved issues
 
-- Fixed an issue in gfx12 where s_barrier_wait would fail to parse for waves not in a workgroup.
+- Fixed an issue in gfx11 and gfx12 where stalled and idle time would be incorrect by 4 cycles.
+  - Issue: https://github.com/ROCm/rocprof-trace-decoder/issues/2 
 
-### Changes
+### Added
 
-- On RDNA GPUs, global_ and scratch_ are now reported as _VMEM (was _FLAT).
-  - This was to keep consistency with MI series, but could be misleading.
-- Changed headers to reflect recent rocprofiler-SDK changes
-  - The ABI is kept the same, there were only field name changes
+- Initial double buffering suport for gfx12 and MI300 series
 
-### Optimization
+- New rocord: rocprofiler_thread_trace_decoder_inst_other_simd_t
+  - Provides VMEM/LDS/FLAT operations on the other SIMD sharing VMEM issue on the target wgp.
+  - Identified by ROCPROFILER_THREAD_TRACE_DECODER_RECORD_INST_OTHER_SIMD
 
-- Reduced memory usage for large traces on all gfx.
-  - \+ Slight improvement parsing speed.
+- Defined macros for retrieving SA from .cu field in most records:
+  - ROCPROFILER_TRACE_DECODER_CU_*
+  - Previously arbitrary, the last bit (bit=7) of struct.cu will define SA of WGP

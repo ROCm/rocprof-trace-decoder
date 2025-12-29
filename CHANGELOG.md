@@ -1,18 +1,15 @@
-# Changelog for release 0.1.5
+# Changelog for release 0.1.6
 
 ### Resolved issues
 
-- Fixed an issue in gfx11 and gfx12 where stalled and idle time would be incorrect by 4 cycles.
-  - Issue: https://github.com/ROCm/rocprof-trace-decoder/issues/2 
+- Fixed an issue where rocprof-trace-decode could read memory out of bounds with a specific trace pattern.
+- Fixed the shaderdata record not properly reporting the Shader Array:
+  - [Issue #5](https://github.com/ROCm/rocprof-trace-decoder/issues/5)
+- Fixed classification of scalar prefetch (was reported as SALU)
 
-### Added
+### Changes
 
-- Initial double buffering suport for gfx12 and MI300 series
-
-- New rocord: rocprofiler_thread_trace_decoder_inst_other_simd_t
-  - Provides VMEM/LDS/FLAT operations on the other SIMD sharing VMEM issue on the target wgp.
-  - Identified by ROCPROFILER_THREAD_TRACE_DECODER_RECORD_INST_OTHER_SIMD
-
-- Defined macros for retrieving SA from .cu field in most records:
-  - ROCPROFILER_TRACE_DECODER_CU_*
-  - Previously arbitrary, the last bit (bit=7) of struct.cu will define SA of WGP
+- s_barrier behaved differently on RDNA2/3:
+  - The time spent waiting on s_barrier was mostly reported as idle time.
+  - It is now changed to stalled/wait time starting from the last executed instruction.
+  - This is an approximation, but will be closer to what RDNA4 and MI series reports.

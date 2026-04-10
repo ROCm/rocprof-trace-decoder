@@ -1,4 +1,10 @@
 # ROCprof Trace Decoder
+> [!CAUTION]
+> This repository is deprecated. The source for rocprof-trace-decoder is now in
+> [ROCm/rocm-systems](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprof-trace-decoder).
+> Building from source via the rocm-systems repository is preferred over installing from this repository.
+>
+> **Users on ROCm >= 7.13 do not need to install this package separately - it is included by default.**
 
 ## Description
 
